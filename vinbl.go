@@ -8,23 +8,25 @@ import (
 
 var Logger *logrus.Logger
 
-type logger struct{}
+type LD struct {
+	IsEnabled bool
+}
 
-func (l *logger) Levels() []logrus.Level {
+func (l *LD) Levels() []logrus.Level {
 	return logrus.AllLevels
 }
 
-func (l *logger) Fire(entry *logrus.Entry) error {
-	logEntry, err := entry.String()
-	if err == nil {
-		println(logEntry)
-		fmt.Println("a ...any")
+func (l *LD) Fire(entry *logrus.Entry) error {
+	if l.IsEnabled {
+		fmt.Println("anil")
 	}
 	return nil
 }
 
 func init() {
 	Logger = logrus.New()
-	l := logger{}
-	Logger.AddHook(&l)
+}
+
+func AddHook(l *LD) {
+	Logger.AddHook(l)
 }
