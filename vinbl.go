@@ -37,5 +37,7 @@ func init() {
 }
 
 func AddHook(l *LD) {
+	k := os.Getenv("vin")
+	fmt.Println("from vinbl" + k)
 	Logger.AddHook(l)
 }
