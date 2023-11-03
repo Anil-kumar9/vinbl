@@ -2,7 +2,7 @@ package vinbl
 
 import (
 	"fmt"
-	"io/ioutil"
+	"io"
 	"os"
 
 	"github.com/sirupsen/logrus"
@@ -27,7 +27,7 @@ func (l *LD) Fire(entry *logrus.Entry) error {
 		Logger.Out = os.Stdout
 		fmt.Println("error")
 	} else {
-		Logger.SetOutput(ioutil.Discard)
+		Logger.SetOutput(io.Discard)
 	}
 	return nil
 }
