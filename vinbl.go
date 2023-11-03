@@ -2,6 +2,7 @@ package vinbl
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/sirupsen/logrus"
 )
@@ -17,8 +18,15 @@ func (l *LD) Levels() []logrus.Level {
 }
 
 func (l *LD) Fire(entry *logrus.Entry) error {
+
 	if l.IsEnabled {
+		Logger.Out = os.Stdout
 		fmt.Println("anil")
+	} else if entry.Level == logrus.ErrorLevel {
+		Logger.Out = os.Stdout
+		fmt.Println("error")
+	} else {
+		Logger.SetOutput(nil)
 	}
 	return nil
 }
