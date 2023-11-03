@@ -6,9 +6,12 @@ import (
 	"os"
 
 	"github.com/sirupsen/logrus"
+	"github.com/spf13/viper"
 )
 
 var Logger *logrus.Logger
+
+var LogEnabled bool
 
 type LD struct {
 	IsEnabled bool
@@ -19,8 +22,7 @@ func (l *LD) Levels() []logrus.Level {
 }
 
 func (l *LD) Fire(entry *logrus.Entry) error {
-
-	if l.IsEnabled {
+	if LogEnabled || l.IsEnabled {
 		Logger.Out = os.Stdout
 		fmt.Println("anil")
 	} else if entry.Level == logrus.ErrorLevel {
@@ -37,7 +39,7 @@ func init() {
 }
 
 func AddHook(l *LD) {
-	k := os.Getenv("vin")
-	fmt.Println("from vinbl" + k)
+	LogEnabled = viper.GetBool("VIN")
+	fmt.Println("from vinbl", LogEnabled)
 	Logger.AddHook(l)
 }
