@@ -1,7 +1,6 @@
 package vinbl
 
 import (
-	"fmt"
 	"io"
 	"os"
 
@@ -24,10 +23,8 @@ func (l *LD) Levels() []logrus.Level {
 func (l *LD) Fire(entry *logrus.Entry) error {
 	if LogEnabled || l.IsEnabled {
 		Logger.Out = os.Stdout
-		fmt.Println("anil")
 	} else if entry.Level == logrus.ErrorLevel {
 		Logger.Out = os.Stdout
-		fmt.Println("error")
 	} else {
 		Logger.SetOutput(io.Discard)
 	}
@@ -40,6 +37,5 @@ func init() {
 
 func AddHook(l *LD) {
 	LogEnabled = viper.GetBool("VIN")
-	fmt.Println("from vinbl", LogEnabled)
 	Logger.AddHook(l)
 }
