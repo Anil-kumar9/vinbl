@@ -1,4 +1,4 @@
-package vinbl
+package main
 
 import (
 	"io"
@@ -9,7 +9,6 @@ import (
 )
 
 type LD struct {
-	IsEnabled  bool
 	LogEnabled bool
 }
 
@@ -18,9 +17,9 @@ func (l *LD) Levels() []logrus.Level {
 }
 
 func (l *LD) Fire(entry *logrus.Entry) error {
-	if l.LogEnabled || l.IsEnabled {
+	//fmt.Println(entry.Data)
+	if l.LogEnabled || entry.Data["vin"].(bool) {
 		entry.Logger.Out = os.Stdout
-
 	} else if entry.Level == logrus.ErrorLevel {
 		entry.Logger.Out = os.Stdout
 	} else {
@@ -30,15 +29,11 @@ func (l *LD) Fire(entry *logrus.Entry) error {
 }
 
 func New() *logrus.Logger {
-	return logrus.New()
-}
-
-func AddHook(logger *logrus.Logger, isEnabled bool) {
+	logger := logrus.New()
 	logEnabled := viper.GetBool("VIN")
 	ld := LD{
-		IsEnabled:  isEnabled,
 		LogEnabled: logEnabled,
 	}
 	logger.AddHook(&ld)
-
+	return logger
 }
