@@ -17,7 +17,6 @@ func (l *LD) Levels() []logrus.Level {
 }
 
 func (l *LD) Fire(entry *logrus.Entry) error {
-	//fmt.Println(entry.Data)
 	if l.LogEnabled || entry.Data["vin"].(bool) {
 		entry.Logger.Out = os.Stdout
 	} else if entry.Level == logrus.ErrorLevel {
